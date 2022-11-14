@@ -1,0 +1,30 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<http:listener-config name="${artifactId}-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${symbol_dollar}{http.port}" />
+    </http:listener-config>
+    <apikit:config name="${artifactId}-config" api="resource::${businessGroupId}:${artifactId}:1.0.0:raml:zip:${artifactId}.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<import doc:name="Error handler" doc:id="8b561ce8-6c66-4950-9e2d-5795e705b054" file="openlogix-common-error-handler.xml" />
+	<import doc:name="Health Flow" doc:id="e30f8349-13e6-4063-a580-7a151f6d2499" file="openlogix-common-health.xml" />
+	<import doc:name="Common Logging" doc:id="5ff516bf-1337-4fb4-b654-9102a8f30854" file="openlogix-common-logging.xml" />
+	<configuration doc:name="Global Error Handler Configuration" doc:id="8ec316d8-3f93-4f10-96e8-f06bb5d8d5e7" defaultErrorHandler-ref="openlogix-common-error-handlerError_Handler" />
+	<configuration-properties doc:name="Common Properties" doc:id="80490db7-eedb-4407-be11-8bc8208aa3aa" file="properties/common.yaml" />
+	<configuration-properties doc:name="Environment properties" doc:id="993b731c-c1c7-4a30-a57c-31c5330b46b9" file="properties/${symbol_dollar}{mule.env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="bceb1a62-3d94-421d-bc22-01052a3b7307" file="properties/secure-${symbol_dollar}{mule.env}.yaml" key="${symbol_dollar}{encrypt.key}" />
+	<global-property doc:name="Global Property" doc:id="7c674468-3eb9-47d1-88e6-3b52b053eb67" name="mule.env" value="dev" />
+	<global-property doc:name="Global Property" doc:id="4ab35f02-fc55-42bd-b06e-903fa4995eac" name="encrypt.key" value="0123456789012345" />	
+	<api-gateway:autodiscovery apiId="${symbol_dollar}{api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="7b3d2a68-b0c5-40dd-8b80-767e1ba0f1d1" flowRef="${artifactId}-main" />
+</mule>

@@ -1,0 +1,2 @@
+api:
+  name: "${artifactId}" # Used in common library
