@@ -1,0 +1,14 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    uses: AskNerella/mule4-ci/.github/workflows/action.yaml@main
+    with:
+      MAVEN_EXCHANGE_ID: "anypoint-exchange-v3"
+    secrets:
+      MAVEN_EXCHANGE_USERNAME: ${{ secrets.MAVEN_EXCHANGE_USERNAME }}
+      MAVEN_EXCHANGE_PASSWORD: ${{ secrets.MAVEN_EXCHANGE_PASSWORD }}
