@@ -18,5 +18,5 @@ mvn clean install
 Navigate to required location to generate the project in using terminal or command prompt and run the following command.
 
 ```bash
-mvn archetype:generate -DarchetypeGroupId=com.openlogix-corp -DarchetypeArtifactId=mulesoft-app-template-archetype -DarchetypeVersion=1.0.0-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=com.openlogix-corp -DarchetypeArtifactId=mulesoft-app-template-archetype -DarchetypeVersion=1.0.1
 ```
